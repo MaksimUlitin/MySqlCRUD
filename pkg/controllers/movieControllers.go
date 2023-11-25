@@ -36,7 +36,7 @@ func GetMovieById(w http.ResponseWriter, r *http.Request) {
 	movieId := vars["movieId"]
 	id, err := strconv.ParseInt(movieId, 0, 0)
 	if err != nil {
-		fmt.Println("Error ")
+		fmt.Println("Error while parsing")
 	}
 	movieDetails, _ := models.GetMovieById(id)
 	res, _ := json.Marshal(movieDetails)
@@ -51,5 +51,16 @@ func UpdataMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteMovie(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	movieId := vars["movieId"]
+	id, err := strconv.ParseInt(movieId, 0, 0)
+	if err != nil {
+		fmt.Println("Error while parsing")
+	}
+	movieDelete := models.DeleteMovie(id)
+	res, _ := json.Marshal(movieDelete)
+	w.Header().Set("Content-Type", "pkg/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 
 }
